@@ -7,20 +7,23 @@ abstract class HomeRemoteDataSource {
   Future<List<BookEntity>> fetchNewestBooks();
 }
 
-// class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
-//   final ApiService _apiService;
+class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
+  final ApiService _apiService;
 
-//   HomeRemoteDataSourceImpl(this._apiService);
-//   @override
-//   Future<List<BookEntity>> fetchFeaturedBooks() async {
-//     var data = await _apiService.get(endPoint: '');
-//     List<BookEntity> books = [];
-//     for (var item in data) {
-//       books.add(BookModel.fromJson(item));
-//     }
-//     return books;
-//   }
+  HomeRemoteDataSourceImpl(this._apiService);
+  @override
+  Future<List<BookEntity>> fetchFeaturedBooks() async {
+    var data = await _apiService.get(
+        endPoint: 'volumes?q=programming&Filtering=free-books');
 
-//   @override
-//   Future<List<BookEntity>> fetchNewestBooks() {}
-// }
+    List<BookEntity> books = [];
+
+    for (var item in data['items']) {
+      books.add(BookModel.fromJson(item));
+    }
+    return books;
+  }
+
+  // @override
+  // Future<List<BookEntity>> fetchNewestBooks() {}
+}
